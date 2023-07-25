@@ -1,0 +1,1392 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Initialize_Applications" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_StrFBTIUserID" Type="InArgument(x:String)" />
+    <x:Property Name="in_SecStrFBTIPassword" Type="InArgument(ss:SecureString)" />
+    <x:Property Name="Out_blnInputFileMoved" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_dtInvoiceData" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="io_dtConsolidatedAuditData" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1865,6809</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="35">
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Management.Automation</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="37">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Management.Automation</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>TimeSpan2</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="1875,6744" sap2010:WorkflowViewState.IdRef="Sequence_9">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strInputFilePath" />
+      <Variable x:TypeArguments="x:String" Name="strFBTIEntity" />
+      <Variable x:TypeArguments="x:String" Name="strErrorHeaderNames" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnAPIStatus" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="1833,139" sap2010:WorkflowViewState.IdRef="AddLogFields_1">
+      <ui:AddLogFields.Fields>
+        <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+      </ui:AddLogFields.Fields>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:AddLogFields>
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1833,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">InitAllApplications process started</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <Assign sap:VirtualizedContainerService.HintSize="1833,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[Out_blnInputFileMoved]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InterruptibleWhile CurrentIndex="{x:Null}" Condition="[Directory.GetFiles(in_Config(&quot;ShareDriveInputsFolderPath&quot;).ToString, &quot;*.xlsx&quot;).Count &gt; 0 and Out_blnInputFileMoved]" DisplayName="While(Getting priority or oldest files from the share drive input folder)" sap:VirtualizedContainerService.HintSize="1833,5886" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_1">
+      <ui:InterruptibleWhile.Body>
+        <TryCatch sap:VirtualizedContainerService.HintSize="1797,5721" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <TryCatch.Try>
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="1759,5494" sap2010:WorkflowViewState.IdRef="Sequence_12">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1717,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Iteration started to get priority (or) oldest file from share drive input(Path: " + in_Config("ShareDriveInputsFolderPath").ToString + ")"]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+              <Assign sap:VirtualizedContainerService.HintSize="1717,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strInputFilePath]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </Assign.Value>
+              </Assign>
+              <If Condition="[Directory.GetFiles(in_Config(&quot;ShareDriveInputsFolderPath&quot;).ToString, in_Config(&quot;InputFileNamePrefix&quot;).ToString.ToUpper + &quot;*.xlsx&quot;).Count &gt; 0]" DisplayName="If(Checking is there any priority files are exists)" sap:VirtualizedContainerService.HintSize="1717,51" sap2010:WorkflowViewState.IdRef="If_2">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <If.Then>
+                  <Sequence sap:VirtualizedContainerService.HintSize="376,456" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[in_Config("InputFileNamePrefix").ToString + " file exist."]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[strInputFilePath]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[Directory.GetFiles(in_Config("ShareDriveInputsFolderPath").ToString, in_Config("InputFileNamePrefix").ToString.ToUpper + "*.xlsx").OrderBy(Function (d) New FileInfo(d).LastWriteTime)(0)]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[in_Config("InputFileNamePrefix").ToString + " input file path is: " + strInputFilePath]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence sap:VirtualizedContainerService.HintSize="376,456" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[in_Config("InputFileNamePrefix").ToString + " file not exist. Getting oldest files from the shared drive inputs folder."]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[strInputFilePath]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[Directory.GetFiles(in_Config("ShareDriveInputsFolderPath").ToString,"*.xlsx").OrderBy(Function (d) New FileInfo(d).LastWriteTime)(0)]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Input file path is: " + strInputFilePath]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                  </Sequence>
+                </If.Else>
+              </If>
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1717,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Moving input file from share drive inputs to local drive inputs</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+              <TryCatch DisplayName="Try Catch(Move File share drive inputs to local drive inputs)" sap:VirtualizedContainerService.HintSize="1717,628" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <TryCatch.Try>
+                  <Sequence sap:VirtualizedContainerService.HintSize="376,401" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:MoveFile ContinueOnError="{x:Null}" DestinationResource="{x:Null}" PathResource="{x:Null}" Destination="[in_Config(&quot;LocalDriveInputsFolderPath&quot;).ToString + &quot;\&quot; + Path.GetFileName(strInputFilePath).ToString]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[strInputFilePath]" />
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Input file moved from shared drive inputs to local drive inputs using 'Move File Activity'</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                  </Sequence>
+                </TryCatch.Try>
+                <TryCatch.Catches>
+                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ActivityAction x:TypeArguments="s:Exception">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                      </ActivityAction.Argument>
+                      <Sequence sap:VirtualizedContainerService.HintSize="376,560" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_35" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while a moving a file from shared drive inputs to local drive inputs. Exception Message: " + exception.Message + " at Source: " + exception.Source]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Error</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <ui:InvokeCode Code="System.IO.File.Move(strFrom, strTo)" ContinueOnError="False" DisplayName="Invoke code(Move file share drive to local drive)" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                          <ui:InvokeCode.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="strFrom">[strInputFilePath]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="strTo">[in_Config("LocalDriveInputFolder").ToString + "\" + Path.GetFileName(strInputFilePath).ToString]</InArgument>
+                          </ui:InvokeCode.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeCode>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_36" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Input file moved from shared drive inputs to local drive inputs using 'Invoke Code'</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                      </Sequence>
+                    </ActivityAction>
+                  </Catch>
+                </TryCatch.Catches>
+              </TryCatch>
+              <If Condition="[File.Exists(in_Config(&quot;LocalDriveInputsFolderPath&quot;).ToString + &quot;\&quot; + Path.GetFileName(strInputFilePath).ToString)]" DisplayName="If(Adding Items to Queue)" sap:VirtualizedContainerService.HintSize="1717,4239" sap2010:WorkflowViewState.IdRef="If_4">
+                <If.Then>
+                  <Sequence sap:VirtualizedContainerService.HintSize="1338,4082" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1296,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Input file moved from shared drive successfully.</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:KillProcess AppliesTo="{x:Null}" Process="{x:Null}" ContinueOnError="True" DisplayName="Kill Process" sap:VirtualizedContainerService.HintSize="1296,132" sap2010:WorkflowViewState.IdRef="KillProcess_1" ProcessName="EXCEL" />
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1296,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Excel application killed</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <Delay Duration="00:00:02" sap:VirtualizedContainerService.HintSize="1296,22" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1296,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">2 seconds delay after killing excel application</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[out_dtInvoiceData]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="1296,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="[in_Config(&quot;CommonSheetName&quot;).ToString]" WorkbookPath="[in_Config(&quot;LocalDriveInputsFolderPath&quot;).ToString + &quot;\&quot; + Path.GetFileName(strInputFilePath).ToString]" />
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1296,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Read input file data into data table</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <If Condition="[out_dtInvoiceData.RowCount &gt; 0]" DisplayName="If(Checking is there any data in the excel file)" sap:VirtualizedContainerService.HintSize="1296,3021" sap2010:WorkflowViewState.IdRef="If_5">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <If.Then>
+                        <Sequence DisplayName="Sequence  (Input file contains rows)" sap:VirtualizedContainerService.HintSize="875,2864" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="833,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_23" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">For each loop started for checking header names</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each (Header Name Checking)" sap:VirtualizedContainerService.HintSize="833,828" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[Split(in_Config(&quot;InputFileHeaderNamesList&quot;).ToString,&quot;,&quot;)]">
+                            <ui:ForEach.Body>
+                              <ActivityAction x:TypeArguments="x:String">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="x:String" Name="eachHeader" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="797,705" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="755,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_24" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Current config header name is: " + eachHeader]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                  </ui:InvokeWorkflowFile>
+                                  <If Condition="[out_dtInvoiceData.Columns.Contains(eachHeader)]" DisplayName="If (Checking Config header contains in input file)" sap:VirtualizedContainerService.HintSize="755,461" sap2010:WorkflowViewState.IdRef="If_7">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If.Then>
+                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_25" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[eachHeader + " exists in input file."]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                      </ui:InvokeWorkflowFile>
+                                    </If.Then>
+                                    <If.Else>
+                                      <Sequence DisplayName="Sequence (Header nmae not exists)" sap:VirtualizedContainerService.HintSize="376,304" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                          <ui:InvokeWorkflowFile.Arguments>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[eachHeader + " not exists in input file."]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                          </ui:InvokeWorkflowFile.Arguments>
+                                        </ui:InvokeWorkflowFile>
+                                        <Assign DisplayName="Assign (Adding header names)" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:String">[strErrorHeaderNames]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[if(strErrorHeaderNames Is Nothing,eachHeader,strErrorHeaderNames +"," + eachHeader)]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </Sequence>
+                                    </If.Else>
+                                  </If>
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:ForEach.Body>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:ForEach>
+                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="833,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">For each loop ended.</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <If Condition="[strErrorHeaderNames Is Nothing]" DisplayName="If (Checking header names error)" sap:VirtualizedContainerService.HintSize="833,1600" sap2010:WorkflowViewState.IdRef="If_8">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <Sequence DisplayName="Sequence (All Headers Exists)" sap:VirtualizedContainerService.HintSize="376,1085" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strFBTIEntity]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[if(out_dtInvoiceData.Rows(0).Item("Entity").ToString.Trim.ToLower = in_Config("ConventionalEntityName").ToString.ToLower,in_Config("FBTIConventionalEntityName").ToString.ToUpper,if(out_dtInvoiceData.Rows(0).Item("Entity").ToString.Trim.ToLower = in_Config("IslamicEntityName").ToString.ToLower,in_Config("FBTIIslamicEntityName").ToString.ToUpper,""))]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_28" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Entity type is: " + strFBTIEntity]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                                  <ui:CommentOut.Body>
+                                    <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="839,513" sap2010:WorkflowViewState.IdRef="Sequence_34">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If Condition="[out_dtInvoiceData.Rows(0).Item(&quot;Entity&quot;).ToString.Trim.ToLower = in_Config(&quot;ConventionalEntityName&quot;).ToString.ToLower]" DisplayName="If(Choosing FBTI Entity based Input Entity)" sap:VirtualizedContainerService.HintSize="215,51" sap2010:WorkflowViewState.IdRef="If_6">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <Sequence sap:VirtualizedContainerService.HintSize="376,304" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:String">[strFBTIEntity]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:String">[in_Config("FBTIConventionalEntityName").ToString.ToUpper]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Entity type is: " + strFBTIEntity]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                            </ui:InvokeWorkflowFile>
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Sequence sap:VirtualizedContainerService.HintSize="376,304" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:String">[strFBTIEntity]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:String">[in_Config("FBTIIslamicEntityName").ToString.ToUpper]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_22" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Entity type is: " + strFBTIEntity]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                            </ui:InvokeWorkflowFile>
+                                          </Sequence>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </ui:CommentOut.Body>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:CommentOut>
+                                <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Add Queue Item" FolderPath="[in_Config(&quot;OrchestratorQueueFolder&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddQueueItem_1" Priority="Normal" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]">
+                                  <ui:AddQueueItem.ItemInformation>
+                                    <InArgument x:TypeArguments="x:String" x:Key="InputFilePath">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;LocalDriveInputsFolderPath&quot;).ToString + &quot;\&quot; + Path.GetFileName(strInputFilePath).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="CaseId">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Case Id&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="FBTIEntity">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="strFBTIEntity" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ProductType">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Product Type&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="FinanceTo">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Finance To&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="DebitTo">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Debit To&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ProductTypeF=FixorV=Float">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Product Type F=Fix or V=Float&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Goods/ServiceDeliverOutsideMalyasia">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Goods/Service Deliver Outside Malyasia&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="FinancingAmount">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Financing Amount&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="FinancingTenor">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Financing Tenor&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="NewBAType">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;New BA Type&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="BADraftNumber">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;BA Draft Number&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="MultilineNumber">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Multiline Number&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="FBTIReferenceNumber">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;FBTI Reference Number&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Entity">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="out_dtInvoiceData.Rows(0).Item(&quot;Entity&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Team">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Team&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="BehalfOfBranch">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BehalfOfBranch&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="CreateNewMaster">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;CreateNewMaster&quot;).ToString.Trim" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="MultilineData">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="if(String.IsNullOrEmpty(out_dtInvoiceData.Rows(0).Item(&quot;Multiline Data&quot;).ToString.Trim),&quot;Refer to Output File&quot;,&quot;&quot;)" />
+                                    </InArgument>
+                                  </ui:AddQueueItem.ItemInformation>
+                                </ui:AddQueueItem>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[String.Join(",",out_dtInvoiceData(0).ItemArray) + " added to Orchestrator Queue: '" + in_Config("OrchestratorQueueName").ToString + "' and Orchestrator Folder: '" +in_Config("OrchestratorQueueFolder").ToString + "'."]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <Sequence DisplayName="Sequence(Updating audit data table)" sap:VirtualizedContainerService.HintSize="334,66" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_14">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Object">[in_Config("AuditFileSerialNumber")]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Object" xml:space="preserve">[(CInt(in_Config("AuditFileSerialNumber").ToString)  + 1).ToString]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_Config(&quot;AuditFileSerialNumber&quot;).ToString, in_Config(&quot;MachineName&quot;).ToString, in_Config(&quot;CurrentDate&quot;).ToString + &quot; &quot; + in_Config(&quot;CurrentTime&quot;).ToString, Now.ToString(in_Config(&quot;CurrentDateFormat&quot;).ToString) + &quot; &quot; + Now.ToString(in_Config(&quot;CurrentTimeFormat&quot;).ToString), in_Config(&quot;AuditComment1&quot;).ToString.Replace(&quot;{Case Id}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Case Id&quot;).ToString.Trim).Replace(&quot;{Entity}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Entity&quot;).ToString.Trim).Replace(&quot;{FBTI Entity}&quot;,strFBTIEntity).Replace(&quot;{Product Type}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Product Type&quot;).ToString.Trim).Replace(&quot;{Finance To}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Finance To&quot;).ToString.Trim).Replace(&quot;{Debit To}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Debit To&quot;).ToString.Trim).Replace(&quot;{Product Type F=Fix or V=Float}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Product Type F=Fix or V=Float&quot;).ToString.Trim).Replace(&quot;{Goods/Service Deliver Outside Malyasia}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Goods/Service Deliver Outside Malyasia&quot;).ToString.Trim).Replace(&quot;{Financing Amount}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Financing Amount&quot;).ToString.Trim).Replace(&quot;{Financing Tenor}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Financing Tenor&quot;).ToString.Trim).Replace(&quot;{New BA Type}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;New BA Type&quot;).ToString.Trim).Replace(&quot;{BA Draft Number}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;BA Draft Number&quot;).ToString.Trim).Replace(&quot;{Multiline Number}&quot;,out_dtInvoiceData.Rows(0).Item(&quot;Multiline Number&quot;).ToString.Trim).Replace(&quot;{Multiline Data}&quot;,if(String.IsNullOrEmpty(out_dtInvoiceData.Rows(0).Item(&quot;Multiline Data&quot;).ToString.Trim),&quot;Refer to Output File&quot;,&quot;&quot;)).Replace(&quot;{Team}&quot;,in_Config(&quot;Team&quot;).ToString.Trim).Replace(&quot;{Behalf of Branch}&quot;,in_Config(&quot;BehalfOfBranch&quot;).ToString.Trim).Replace(&quot;{Create New Master}&quot;,in_Config(&quot;CreateNewMaster&quot;).ToString.Trim)}]" DataTable="[io_dtConsolidatedAuditData]" DisplayName="Add Data Row(Added Convetional data)" sap:VirtualizedContainerService.HintSize="334,185" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:AddDataRow>
+                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_37" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Queue data added to audit data table</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                  </ui:InvokeWorkflowFile>
+                                </Sequence>
+                                <TryCatch DisplayName="Try Catch (Calling API Queue Data)" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="TryCatch_6">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <TryCatch.Try>
+                                    <Sequence sap:VirtualizedContainerService.HintSize="387,474" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="345,139" sap2010:WorkflowViewState.IdRef="AddLogFields_8">
+                                        <ui:AddLogFields.Fields>
+                                          <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">Update_Status_API</InArgument>
+                                        </ui:AddLogFields.Fields>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:AddLogFields>
+                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\Update_Status_API.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="345,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_38" UnSafe="False" WorkflowFileName="ProjectComponents\Update_Status_API.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_strAPIBody">[in_Config("PostAPIBody").ToString.Replace("{BotResponse}",in_Config("AuditComment1").ToString.Replace("{Case Id}",out_dtInvoiceData.Rows(0).Item("Case Id").ToString.Trim).Replace("{Entity}",out_dtInvoiceData.Rows(0).Item("Entity").ToString.Trim).Replace("{FBTI Entity}",strFBTIEntity).Replace("{Product Type}",out_dtInvoiceData.Rows(0).Item("Product Type").ToString.Trim).Replace("{Finance To}",out_dtInvoiceData.Rows(0).Item("Finance To").ToString.Trim).Replace("{Debit To}",out_dtInvoiceData.Rows(0).Item("Debit To").ToString.Trim).Replace("{Product Type F=Fix or V=Float}",out_dtInvoiceData.Rows(0).Item("Product Type F=Fix or V=Float").ToString.Trim).Replace("{Goods/Service Deliver Outside Malyasia}",out_dtInvoiceData.Rows(0).Item("Goods/Service Deliver Outside Malyasia").ToString.Trim).Replace("{Financing Amount}",out_dtInvoiceData.Rows(0).Item("Financing Amount").ToString.Trim).Replace("{Financing Tenor}",out_dtInvoiceData.Rows(0).Item("Financing Tenor").ToString.Trim).Replace("{New BA Type}",out_dtInvoiceData.Rows(0).Item("New BA Type").ToString.Trim).Replace("{BA Draft Number}",out_dtInvoiceData.Rows(0).Item("BA Draft Number").ToString.Trim).Replace("{Multiline Number}",out_dtInvoiceData.Rows(0).Item("Multiline Number").ToString.Trim).Replace("{Multiline Data}",if(String.IsNullOrEmpty(out_dtInvoiceData.Rows(0).Item("Multiline Data").ToString.Trim),"Refer to Output File","")).Replace("{Team}",in_Config("Team").ToString.Trim).Replace("{Behalf of Branch}",in_Config("BehalfOfBranch").ToString.Trim).Replace("{Create New Master}",in_Config("CreateNewMaster").ToString.Trim)).Replace("{BotStatus}","").Replace("{ExceptionScreenshotPath}","").Replace("{type}",in_Config("PostAPIType2Name").ToString.Trim)]</InArgument>
+                                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_blnAPIStatus">[blnAPIStatus]</OutArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                      </ui:InvokeWorkflowFile>
+                                      <If Condition="[blnAPIStatus]" DisplayName="If (Checking API Status)" sap:VirtualizedContainerService.HintSize="345,51" sap2010:WorkflowViewState.IdRef="If_9">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_39" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Orchestrator queue data sent to API Successfully</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </If.Then>
+                                        <If.Else>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_40" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">API failed to send Orchestartor queue data</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </TryCatch.Try>
+                                  <TryCatch.Catches>
+                                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_6">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ActivityAction x:TypeArguments="s:Exception">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                        </ActivityAction.Argument>
+                                        <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_9">
+                                            <ui:AddLogFields.Fields>
+                                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                            </ui:AddLogFields.Fields>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:AddLogFields>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_41" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while calling API at initiallapplications. Exception Message: " + exception.Message]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </Sequence>
+                                      </ActivityAction>
+                                    </Catch>
+                                  </TryCatch.Catches>
+                                </TryCatch>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_10">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Boolean">[Out_blnInputFileMoved]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </If.Then>
+                            <If.Else>
+                              <Sequence DisplayName="Sequence (All or Some Headers Not Exists)" sap:VirtualizedContainerService.HintSize="376,1443" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_29" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[in_Config("NoHeadersMessage").ToString.Replace("{Headers}",strErrorHeaderNames).Replace("{FileName}",Path.GetFileName(strInputFilePath))]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_2">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">SendEmailNotification</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <TryCatch DisplayName="Try Catch (Business Exception)" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <TryCatch.Try>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\SendEmailNotification.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="365,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_30" UnSafe="False" WorkflowFileName="ProjectComponents\SendEmailNotification.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="ui:BusinessRuleException" x:Key="in_BusinessException">[New BusinessRuleException(in_Config("NoHeadersMessage").ToString.Replace("{Headers}",strErrorHeaderNames).Replace("{FileName}",Path.GetFileName(strInputFilePath)))]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_MailType">[in_Config("BEMailType").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="s:Exception" x:Key="in_SystemException" />
+                                        <InArgument x:TypeArguments="sd:DataRow" x:Key="in_TransactionItem" />
+                                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrMailTemplateFile">[in_Config("LocalDriveTemplatesFolderPath").ToString + "\" + in_Config("BUBodyTemplateFile").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrStrFilePaths" />
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </TryCatch.Try>
+                                  <TryCatch.Catches>
+                                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ActivityAction x:TypeArguments="s:Exception">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                        </ActivityAction.Argument>
+                                        <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_35">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_4">
+                                            <ui:AddLogFields.Fields>
+                                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                            </ui:AddLogFields.Fields>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:AddLogFields>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_31" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while sending email at InitAllApplications. Exception Message: " + exception.Message]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Error</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </Sequence>
+                                      </ActivityAction>
+                                    </Catch>
+                                  </TryCatch.Catches>
+                                </TryCatch>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_3">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <Sequence DisplayName="Sequence(Updating audit data table)" sap:VirtualizedContainerService.HintSize="334,66" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_15">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Object">[in_Config("AuditFileSerialNumber")]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Object" xml:space="preserve">[(CInt(in_Config("AuditFileSerialNumber").ToString)  + 1).ToString]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_Config(&quot;AuditFileSerialNumber&quot;).ToString, in_Config(&quot;MachineName&quot;).ToString, in_Config(&quot;CurrentDate&quot;).ToString + &quot; &quot; + in_Config(&quot;CurrentTime&quot;).ToString, Now.ToString(in_Config(&quot;CurrentDateFormat&quot;).ToString) + &quot; &quot; + Now.ToString(in_Config(&quot;CurrentTimeFormat&quot;).ToString), in_Config(&quot;NoHeadersMessage&quot;).ToString.Replace(&quot;{Headers}&quot;,strErrorHeaderNames).Replace(&quot;{FileName}&quot;,Path.GetFileName(strInputFilePath))}]" DataTable="[io_dtConsolidatedAuditData]" DisplayName="Add Data Row(Added Convetional data)" sap:VirtualizedContainerService.HintSize="334,185" sap2010:WorkflowViewState.IdRef="AddDataRow_2">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:AddDataRow>
+                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_42" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Business exception added to audit data table</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                  </ui:InvokeWorkflowFile>
+                                </Sequence>
+                                <TryCatch DisplayName="Try Catch (Calling API No Headers Business Exception)" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="TryCatch_7">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <TryCatch.Try>
+                                    <Sequence sap:VirtualizedContainerService.HintSize="387,474" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="345,139" sap2010:WorkflowViewState.IdRef="AddLogFields_11">
+                                        <ui:AddLogFields.Fields>
+                                          <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">Update_Status_API</InArgument>
+                                        </ui:AddLogFields.Fields>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:AddLogFields>
+                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\Update_Status_API.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="345,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_43" UnSafe="False" WorkflowFileName="ProjectComponents\Update_Status_API.xaml">
+                                        <ui:InvokeWorkflowFile.Arguments>
+                                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                          <InArgument x:TypeArguments="x:String" x:Key="in_strAPIBody">[in_Config("PostAPIBody").ToString.Replace("{BotResponse}",in_Config("NoHeadersMessage").ToString.Replace("{Headers}",strErrorHeaderNames).Replace("{FileName}",Path.GetFileName(strInputFilePath))).Replace("{BotStatus}","Failed").Replace("{ExceptionScreenshotPath}","").Replace("{type}",in_Config("PostAPIType1Name").ToString.Trim)]</InArgument>
+                                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_blnAPIStatus">[blnAPIStatus]</OutArgument>
+                                        </ui:InvokeWorkflowFile.Arguments>
+                                      </ui:InvokeWorkflowFile>
+                                      <If Condition="[blnAPIStatus]" DisplayName="If (Checking API Status)" sap:VirtualizedContainerService.HintSize="345,51" sap2010:WorkflowViewState.IdRef="If_10">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_44" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Orchestrator queue data sent to API Successfully</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </If.Then>
+                                        <If.Else>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_45" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">API failed to send Orchestartor queue data</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </TryCatch.Try>
+                                  <TryCatch.Catches>
+                                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_7">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ActivityAction x:TypeArguments="s:Exception">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                        </ActivityAction.Argument>
+                                        <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_42">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_12">
+                                            <ui:AddLogFields.Fields>
+                                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                            </ui:AddLogFields.Fields>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:AddLogFields>
+                                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_46" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                            <ui:InvokeWorkflowFile.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while calling API at initiallapplications. Exception Message: " + exception.Message]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                            </ui:InvokeWorkflowFile.Arguments>
+                                          </ui:InvokeWorkflowFile>
+                                        </Sequence>
+                                      </ActivityAction>
+                                    </Catch>
+                                  </TryCatch.Catches>
+                                </TryCatch>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_13">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_32" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Moving to next file</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Boolean">[Out_blnInputFileMoved]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Assign (Adding header names)" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strErrorHeaderNames]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[Nothing]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <ui:Continue sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Continue_1" />
+                              </Sequence>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Sequence (No data in Input file)" sap:VirtualizedContainerService.HintSize="376,1191" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[in_Config("NoDataInInputFileMessage").ToString.Replace("{FileName}",Path.GetFileName(strInputFilePath))]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_5">
+                            <ui:AddLogFields.Fields>
+                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">SendEmailNotification</InArgument>
+                            </ui:AddLogFields.Fields>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:AddLogFields>
+                          <TryCatch DisplayName="Try Catch (Business Exception Mail)" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="TryCatch_5">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <TryCatch.Try>
+                              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\SendEmailNotification.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="365,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_33" UnSafe="False" WorkflowFileName="ProjectComponents\SendEmailNotification.xaml">
+                                <ui:InvokeWorkflowFile.Arguments>
+                                  <InArgument x:TypeArguments="ui:BusinessRuleException" x:Key="in_BusinessException">[New BusinessRuleException(in_Config("NoDataInInputFileMessage").ToString.Replace("{FileName}",Path.GetFileName(strInputFilePath)))]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_MailType">[in_Config("BEMailType").ToString]</InArgument>
+                                  <InArgument x:TypeArguments="s:Exception" x:Key="in_SystemException" />
+                                  <InArgument x:TypeArguments="sd:DataRow" x:Key="in_TransactionItem" />
+                                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="in_StrMailTemplateFile">[in_Config("LocalDriveTemplatesFolderPath").ToString + "\" + in_Config("BUBodyTemplateFile").ToString]</InArgument>
+                                  <InArgument x:TypeArguments="s:String[]" x:Key="in_arrStrFilePaths" />
+                                </ui:InvokeWorkflowFile.Arguments>
+                              </ui:InvokeWorkflowFile>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,452" sap2010:WorkflowViewState.IdRef="Catch`1_5">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_6">
+                                      <ui:AddLogFields.Fields>
+                                        <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                      </ui:AddLogFields.Fields>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:AddLogFields>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_34" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while sending email at InitAllApplications. Exception Message: " + exception.Message]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Error</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </Sequence>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_14">
+                            <ui:AddLogFields.Fields>
+                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                            </ui:AddLogFields.Fields>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:AddLogFields>
+                          <Sequence DisplayName="Sequence(Updating audit data table)" sap:VirtualizedContainerService.HintSize="334,66" sap2010:WorkflowViewState.IdRef="Sequence_43">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[in_Config("AuditFileSerialNumber")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object" xml:space="preserve">[(CInt(in_Config("AuditFileSerialNumber").ToString)  + 1).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_Config(&quot;AuditFileSerialNumber&quot;).ToString, in_Config(&quot;MachineName&quot;).ToString, in_Config(&quot;CurrentDate&quot;).ToString + &quot; &quot; + in_Config(&quot;CurrentTime&quot;).ToString, Now.ToString(in_Config(&quot;CurrentDateFormat&quot;).ToString) + &quot; &quot; + Now.ToString(in_Config(&quot;CurrentTimeFormat&quot;).ToString), in_Config(&quot;NoDataInInputFileMessage&quot;).ToString.Replace(&quot;{FileName}&quot;,Path.GetFileName(strInputFilePath))}]" DataTable="[io_dtConsolidatedAuditData]" DisplayName="Add Data Row(Added Convetional data)" sap:VirtualizedContainerService.HintSize="334,185" sap2010:WorkflowViewState.IdRef="AddDataRow_3">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:AddDataRow>
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_47" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Business exception added to audit data table</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
+                          </Sequence>
+                          <TryCatch DisplayName="Try Catch (Calling API No data Business Exception)" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="TryCatch_8">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <TryCatch.Try>
+                              <Sequence sap:VirtualizedContainerService.HintSize="387,474" sap2010:WorkflowViewState.IdRef="Sequence_44">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="345,139" sap2010:WorkflowViewState.IdRef="AddLogFields_15">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">Update_Status_API</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\Update_Status_API.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="345,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_48" UnSafe="False" WorkflowFileName="ProjectComponents\Update_Status_API.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_strAPIBody">[in_Config("PostAPIBody").ToString.Replace("{BotResponse}",in_Config("NoDataInInputFileMessage").ToString.Replace("{FileName}",Path.GetFileName(strInputFilePath))).Replace("{BotStatus}","Failed").Replace("{ExceptionScreenshotPath}","").Replace("{type}",in_Config("PostAPIType1Name").ToString.Trim)]</InArgument>
+                                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_blnAPIStatus">[blnAPIStatus]</OutArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <If Condition="[blnAPIStatus]" DisplayName="If (Checking API Status)" sap:VirtualizedContainerService.HintSize="345,51" sap2010:WorkflowViewState.IdRef="If_11">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <If.Then>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_49" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Orchestrator queue data sent to API Successfully</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </If.Then>
+                                  <If.Else>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_50" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">API failed to send Orchestartor queue data</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </If.Else>
+                                </If>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_8">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_45">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_16">
+                                      <ui:AddLogFields.Fields>
+                                        <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                                      </ui:AddLogFields.Fields>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:AddLogFields>
+                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_51" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while calling API at initiallapplications. Exception Message: " + exception.Message]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </Sequence>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                          <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_17">
+                            <ui:AddLogFields.Fields>
+                              <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">InitAllApplications</InArgument>
+                            </ui:AddLogFields.Fields>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:AddLogFields>
+                          <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Boolean">[Out_blnInputFileMoved]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:Continue sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Continue_2" />
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_13" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Input file not moved from shared drive</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </If.Else>
+              </If>
+            </Sequence>
+          </TryCatch.Try>
+          <TryCatch.Catches>
+            <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1763,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ActivityAction x:TypeArguments="s:Exception">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                </ActivityAction.Argument>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,204" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while getting files from shared drive input. Exception Message: " + exception.Message + " at Source: " + exception.Source]</InArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Error</InArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </Sequence>
+              </ActivityAction>
+            </Catch>
+          </TryCatch.Catches>
+        </TryCatch>
+      </ui:InterruptibleWhile.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InterruptibleWhile>
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">[If(Out_blnInputFileMoved,"No files in shared drive inputs","Data added to queue successfully.")]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Opening applications process ended</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+  </Sequence>
+</Activity>
