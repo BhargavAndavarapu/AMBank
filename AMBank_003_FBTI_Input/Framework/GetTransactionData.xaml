@@ -1,0 +1,387 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="GetTransactionData" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Sequential counter of transaction items." Name="in_TransactionNumber" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="out_TransactionItem" Type="OutArgument(ui:QueueItem)" />
+    <x:Property sap2010:Annotation.AnnotationText="Allow the optional addition of information about the transaction item." Name="out_TransactionField1" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Allow the optional addition of information about the transaction item." Name="out_TransactionField2" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Transaction ID used for information and logging purposes. Ideally, the ID should be unique for each transaction. " Name="out_TransactionID" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="This variable can be used in case transactions are stored in a DataTable (for example, after being retrieved from a spreadsheet)." Name="io_dt_TransactionData" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_dtConsolidatedAuditData" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1378,3773</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>GetTransactionData_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Microsoft.Activities</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.ComponentModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Get a transaction item from a specified source (e.g., Orchestrator queues, spreadsheets, databases, mailboxes or web APIs). &#xA;&#xA;If there are no transaction items remaining, out_TransactionItem is set to Nothing, which leads to the End Process state. &#xA;&#xA;For cases in which there is only a single transaction (i.e., a linear process), use an If activity to check whether the argument in_TransactionNumber has the value 1 (meaning it is the first and only transaction) and assign the transaction item to out_TransactionItem. For any other value of in_TransactionNumber, out_TransactionItem should be set to Nothing.&#xA;&#xA;If there are multiple transactions, use the argument in_TransactionNumber as an index to retrieve the correct transaction to be processed. If there are no more transactions left, it is necessary to set out_TransactionItem to Nothing, thus ending the process." DisplayName="Get Transaction Data" sap:VirtualizedContainerService.HintSize="1388,3708" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="blnAPIStatus" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="1346,139" sap2010:WorkflowViewState.IdRef="AddLogFields_1">
+      <ui:AddLogFields.Fields>
+        <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">GetTransactionData</InArgument>
+      </ui:AddLogFields.Fields>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:AddLogFields>
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="1346,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Get the transaction item</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:RetryScope DisplayName="Retry Get transaction item" sap:VirtualizedContainerService.HintSize="1346,2445" sap2010:WorkflowViewState.IdRef="RetryScope_2" NumberOfRetries="[Cint(in_Config(&quot;RetryNumberGetTransactionItem&quot;))]">
+      <ui:RetryScope.ActivityBody>
+        <ActivityAction>
+          <TryCatch DisplayName="Try Catch Get transaction item" sap:VirtualizedContainerService.HintSize="939,2271" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+            <TryCatch.Try>
+              <Sequence sap:VirtualizedContainerService.HintSize="901,2044" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:GetQueueItem ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="Get a transaction item from the specified Orchestrator queue.&#xA;If queues are not used in this process, replace this activity with the appropriated logic to retrieve transaction items.&#xA;For example, if transactions are rows from a DataTable, the row corresponding to the current transaction is retrieved at this point." DisplayName="Get transaction item" FolderPath="[in_Config(&quot;OrchestratorQueueFolder&quot;).ToString]" sap:VirtualizedContainerService.HintSize="859,214" sap2010:WorkflowViewState.IdRef="GetQueueItem_2" QueueType="[in_Config(&quot;OrchestratorQueueName&quot;).ToString]" TransactionItem="[out_TransactionItem]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:GetQueueItem>
+                <If Condition="[out_TransactionItem IsNot Nothing]" DisplayName="If (Checking transaction item is empty or not)" sap:VirtualizedContainerService.HintSize="859,1698" sap2010:WorkflowViewState.IdRef="If_2">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <If.Then>
+                    <Sequence sap:VirtualizedContainerService.HintSize="480,1541" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Sequence DisplayName="Sequence(Updating audit data table)" sap:VirtualizedContainerService.HintSize="438,529" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Object">[in_Config("AuditFileSerialNumber")]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Object" xml:space="preserve">[(CInt(in_Config("AuditFileSerialNumber").ToString)  + 1).ToString]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_Config(&quot;AuditFileSerialNumber&quot;).ToString, in_Config(&quot;MachineName&quot;).ToString, in_Config(&quot;CurrentDate&quot;).ToString + &quot; &quot; + in_Config(&quot;CurrentTime&quot;).ToString, Now.ToString(in_Config(&quot;CurrentDateFormat&quot;).ToString) + &quot; &quot; + Now.ToString(in_Config(&quot;CurrentTimeFormat&quot;).ToString), in_Config(&quot;AuditComment2&quot;).ToString.Replace(&quot;{Case Id}&quot;,out_TransactionItem.SpecificContent(&quot;CaseId&quot;).ToString.Trim).Replace(&quot;{Entity}&quot;,out_TransactionItem.SpecificContent(&quot;Entity&quot;).ToString.Trim).Replace(&quot;{FBTI Entity}&quot;, out_TransactionItem.SpecificContent(&quot;FBTIEntity&quot;).ToString.Trim).Replace(&quot;{Product Type}&quot;,out_TransactionItem.SpecificContent(&quot;ProductType&quot;).ToString.Trim).Replace(&quot;{Finance To}&quot;,out_TransactionItem.SpecificContent(&quot;FinanceTo&quot;).ToString.Trim).Replace(&quot;{Debit To}&quot;,out_TransactionItem.SpecificContent(&quot;DebitTo&quot;).ToString.Trim).Replace(&quot;{Product Type F=Fix or V=Float}&quot;,out_TransactionItem.SpecificContent(&quot;ProductTypeF=FixorV=Float&quot;).ToString.Trim).Replace(&quot;{Goods/Service Deliver Outside Malyasia}&quot;,out_TransactionItem.SpecificContent(&quot;Goods/ServiceDeliverOutsideMalyasia&quot;).ToString.Trim).Replace(&quot;{Financing Amount}&quot;,out_TransactionItem.SpecificContent(&quot;FinancingAmount&quot;).ToString.Trim).Replace(&quot;{Financing Tenor}&quot;,out_TransactionItem.SpecificContent(&quot;FinancingTenor&quot;).ToString.Trim).Replace(&quot;{New BA Type}&quot;,out_TransactionItem.SpecificContent(&quot;NewBAType&quot;).ToString.Trim).Replace(&quot;{BA Draft Number}&quot;,out_TransactionItem.SpecificContent(&quot;BADraftNumber&quot;).ToString.Trim).Replace(&quot;{Multiline Number}&quot;,out_TransactionItem.SpecificContent(&quot;MultilineNumber&quot;).ToString.Trim).Replace(&quot;{Multiline Data}&quot;,out_TransactionItem.SpecificContent(&quot;MultilineData&quot;).ToString.Trim).Replace(&quot;{Team}&quot;,out_TransactionItem.SpecificContent(&quot;Team&quot;).ToString.Trim).Replace(&quot;{Behalf of Branch}&quot;,out_TransactionItem.SpecificContent(&quot;BehalfOfBranch&quot;).ToString.Trim).Replace(&quot;{Create New Master}&quot;,out_TransactionItem.SpecificContent(&quot;CreateNewMaster&quot;).ToString.Trim).Replace(&quot;{Commission Percentage}&quot;, out_TransactionItem.SpecificContent(&quot;CommissionPercentage&quot;).ToString.Trim).Replace(&quot;{Tenor}&quot;, out_TransactionItem.SpecificContent(&quot;Tenor&quot;).ToString.Trim).Replace(&quot;{Normal Interest Spread %}&quot;, out_TransactionItem.SpecificContent(&quot;NormalInterestSpread%&quot;).ToString.Trim).Replace(&quot;{Interest Type}&quot;, out_TransactionItem.SpecificContent(&quot;InterestType&quot;).ToString.Trim).Replace(&quot;{Default Account Number}&quot;, out_TransactionItem.SpecificContent(&quot;DefaultAccountNumber&quot;).ToString.Trim).Replace(&quot;{Transaction Status}&quot;, out_TransactionItem.SpecificContent(&quot;TransactionStatus&quot;).ToString.Trim).Replace(&quot;{Available Amount}&quot;, out_TransactionItem.SpecificContent(&quot;AvailableAmount&quot;).ToString.Trim).Replace(&quot;{Facility Limit Amount}&quot;, out_TransactionItem.SpecificContent(&quot;FacilityLimitAmount&quot;).ToString.Trim).Replace(&quot;{Facility Expiry Date}&quot;, out_TransactionItem.SpecificContent(&quot;FacilityExpiryDate&quot;).ToString.Trim).Replace(&quot;{Overdue Interest Spread %}&quot;, out_TransactionItem.SpecificContent(&quot;OverdueInterestSpread%&quot;).ToString.Trim).Replace(&quot;{FBTI Reference Number}&quot;, out_TransactionItem.SpecificContent(&quot;FBTIReferenceNumber&quot;).ToString.Trim)}]" DataTable="[io_dtConsolidatedAuditData]" DisplayName="Add Data Row(Audit Datatable)" sap:VirtualizedContainerService.HintSize="334,185" sap2010:WorkflowViewState.IdRef="AddDataRow_1">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:AddDataRow>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Queue data added to audit data table</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                      </Sequence>
+                      <TryCatch DisplayName="Try Catch (Calling API Retiving Queue Data)" sap:VirtualizedContainerService.HintSize="438,701" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <TryCatch.Try>
+                          <Sequence sap:VirtualizedContainerService.HintSize="387,474" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="345,139" sap2010:WorkflowViewState.IdRef="AddLogFields_2">
+                              <ui:AddLogFields.Fields>
+                                <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">Update_Status_API</InArgument>
+                              </ui:AddLogFields.Fields>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </ui:AddLogFields>
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="ProjectComponents\Update_Status_API.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="345,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="ProjectComponents\Update_Status_API.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                                  <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                                </InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_strAPIBody">
+                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;PostAPIBody&quot;).ToString.Replace(&quot;{BotResponse}&quot;,in_Config(&quot;AuditComment2&quot;).ToString.Replace(&quot;{Case Id}&quot;,out_TransactionItem.SpecificContent(&quot;CaseId&quot;).ToString.Trim).Replace(&quot;{Entity}&quot;,out_TransactionItem.SpecificContent(&quot;Entity&quot;).ToString.Trim).Replace(&quot;{FBTI Entity}&quot;, out_TransactionItem.SpecificContent(&quot;FBTIEntity&quot;).ToString.Trim).Replace(&quot;{Product Type}&quot;,out_TransactionItem.SpecificContent(&quot;ProductType&quot;).ToString.Trim).Replace(&quot;{Finance To}&quot;,out_TransactionItem.SpecificContent(&quot;FinanceTo&quot;).ToString.Trim).Replace(&quot;{Debit To}&quot;,out_TransactionItem.SpecificContent(&quot;DebitTo&quot;).ToString.Trim).Replace(&quot;{Product Type F=Fix or V=Float}&quot;,out_TransactionItem.SpecificContent(&quot;ProductTypeF=FixorV=Float&quot;).ToString.Trim).Replace(&quot;{Goods/Service Deliver Outside Malyasia}&quot;,out_TransactionItem.SpecificContent(&quot;Goods/ServiceDeliverOutsideMalyasia&quot;).ToString.Trim).Replace(&quot;{Financing Amount}&quot;,out_TransactionItem.SpecificContent(&quot;FinancingAmount&quot;).ToString.Trim).Replace(&quot;{Financing Tenor}&quot;,out_TransactionItem.SpecificContent(&quot;FinancingTenor&quot;).ToString.Trim).Replace(&quot;{New BA Type}&quot;,out_TransactionItem.SpecificContent(&quot;NewBAType&quot;).ToString.Trim).Replace(&quot;{BA Draft Number}&quot;,out_TransactionItem.SpecificContent(&quot;BADraftNumber&quot;).ToString.Trim).Replace(&quot;{Multiline Number}&quot;,out_TransactionItem.SpecificContent(&quot;MultilineNumber&quot;).ToString.Trim).Replace(&quot;{Multiline Data}&quot;,out_TransactionItem.SpecificContent(&quot;MultilineData&quot;).ToString.Trim).Replace(&quot;{Team}&quot;,out_TransactionItem.SpecificContent(&quot;Team&quot;).ToString.Trim).Replace(&quot;{Behalf of Branch}&quot;,out_TransactionItem.SpecificContent(&quot;BehalfOfBranch&quot;).ToString.Trim).Replace(&quot;{Create New Master}&quot;,out_TransactionItem.SpecificContent(&quot;CreateNewMaster&quot;).ToString.Trim).Replace(&quot;{Commission Percentage}&quot;, out_TransactionItem.SpecificContent(&quot;CommissionPercentage&quot;).ToString.Trim).Replace(&quot;{Tenor}&quot;, out_TransactionItem.SpecificContent(&quot;Tenor&quot;).ToString.Trim).Replace(&quot;{Normal Interest Spread %}&quot;, out_TransactionItem.SpecificContent(&quot;NormalInterestSpread%&quot;).ToString.Trim).Replace(&quot;{Interest Type}&quot;, out_TransactionItem.SpecificContent(&quot;InterestType&quot;).ToString.Trim).Replace(&quot;{Default Account Number}&quot;, out_TransactionItem.SpecificContent(&quot;DefaultAccountNumber&quot;).ToString.Trim).Replace(&quot;{Transaction Status}&quot;, out_TransactionItem.SpecificContent(&quot;TransactionStatus&quot;).ToString.Trim).Replace(&quot;{Available Amount}&quot;, out_TransactionItem.SpecificContent(&quot;AvailableAmount&quot;).ToString.Trim).Replace(&quot;{Facility Limit Amount}&quot;, out_TransactionItem.SpecificContent(&quot;FacilityLimitAmount&quot;).ToString.Trim).Replace(&quot;{Facility Expiry Date}&quot;, out_TransactionItem.SpecificContent(&quot;FacilityExpiryDate&quot;).ToString.Trim).Replace(&quot;{Overdue Interest Spread %}&quot;, out_TransactionItem.SpecificContent(&quot;OverdueInterestSpread%&quot;).ToString.Trim).Replace(&quot;{FBTI Reference Number}&quot;, out_TransactionItem.SpecificContent(&quot;FBTIReferenceNumber&quot;).ToString.Trim)).Replace(&quot;{BotStatus}&quot;,&quot;&quot;).Replace(&quot;{ExceptionScreenshotPath}&quot;,&quot;&quot;).Replace(&quot;{type}&quot;,in_Config(&quot;PostAPIType2Name&quot;).ToString.Trim)" />
+                                </InArgument>
+                                <OutArgument x:TypeArguments="x:Boolean" x:Key="out_blnAPIStatus">
+                                  <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="blnAPIStatus" />
+                                </OutArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
+                            <If Condition="[blnAPIStatus]" DisplayName="If (Checking API Status)" sap:VirtualizedContainerService.HintSize="345,51" sap2010:WorkflowViewState.IdRef="If_3">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Orchestrator queue data retrived message sent to API Successfully</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                              </If.Then>
+                              <If.Else>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">API failed to send Orchestartor queue retived data</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                              </If.Else>
+                            </If>
+                          </Sequence>
+                        </TryCatch.Try>
+                        <TryCatch.Catches>
+                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ActivityAction x:TypeArguments="s:Exception">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                              </ActivityAction.Argument>
+                              <Sequence sap:VirtualizedContainerService.HintSize="376,383" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="334,139" sap2010:WorkflowViewState.IdRef="AddLogFields_3">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="ExecutingXaml">GetTransactionData</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Exception occured while calling API at GetTransactionData. Exception Message: " + exception.Message]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                              </Sequence>
+                            </ActivityAction>
+                          </Catch>
+                        </TryCatch.Catches>
+                      </TryCatch>
+                      <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="438,139" sap2010:WorkflowViewState.IdRef="AddLogFields_4">
+                        <ui:AddLogFields.Fields>
+                          <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">GetTransactionData</InArgument>
+                        </ui:AddLogFields.Fields>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:AddLogFields>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">No more transaction items in the queue</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                  </If.Else>
+                </If>
+              </Sequence>
+            </TryCatch.Try>
+            <TryCatch.Catches>
+              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="905,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="s:Exception">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Catch Get transaction item" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message Get transaction item faulted" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;Could not retrieve transaction item. Exception message: &quot;+exception.Message]" />
+                    <Rethrow DisplayName="Rethrow Get transaction item faulted" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+                  </Sequence>
+                </ActivityAction>
+              </Catch>
+            </TryCatch.Catches>
+          </TryCatch>
+        </ActivityAction>
+      </ui:RetryScope.ActivityBody>
+      <ui:RetryScope.Condition>
+        <ActivityFunc x:TypeArguments="x:Boolean" />
+      </ui:RetryScope.Condition>
+    </ui:RetryScope>
+    <If sap2010:Annotation.AnnotationText="This optional step can be used to include more information about a transaction item and it is used mainly for logging and visualization purposes.&#xA;For example, if transaction items are invoices, then out_TransactionID can be the invoice number, out_TransactionField1 can be the invoice date and out_TransactionField2 can be the invoice amount." Condition="[out_TransactionItem isNot Nothing]" DisplayName="If a new transaction item is retrieved, get additional information about it" sap:VirtualizedContainerService.HintSize="1346,668" sap2010:WorkflowViewState.IdRef="If_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <Sequence sap2010:Annotation.AnnotationText="Write data to the added log fields that identify the transaction." DisplayName="Add transaction information to log fields" sap:VirtualizedContainerService.HintSize="304,394" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign out_TransactionID" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionID]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[now.ToString]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign out_TransactionField1" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionField1]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[string.Empty]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign out_TransactionField2" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionField2]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[string.Empty]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+    </If>
+  </Sequence>
+</Activity>

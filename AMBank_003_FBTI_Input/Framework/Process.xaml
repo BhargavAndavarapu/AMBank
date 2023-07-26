@@ -1,0 +1,581 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </x:Property>
+    <x:Property Name="in_strFBTIUserId" Type="InArgument(x:String)" />
+    <x:Property Name="in_secStrFBTIPassword" Type="InArgument(ss:SecureString)" />
+    <x:Property Name="io_dtConsolidatedAuditData" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="io_dtConsolidatedTransactionData" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1016,1871</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="39">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Windows.Forms</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>System.Dynamic</x:String>
+      <x:String>System.Collections.Specialized</x:String>
+      <x:String>UiPath.Web.Activities</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="39">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="865,1806" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="x:Boolean" Name="blnHomePageExists" />
+      <Variable x:TypeArguments="x:String" Name="strOutputFilePath" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnAPIStatus" />
+    </Flowchart.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        <av:Point x:Key="ShapeLocation">400,2.5</av:Point>
+        <av:Size x:Key="ShapeSize">60,75</av:Size>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        <av:PointCollection x:Key="ConnectorLocation">430,77.5 430,124.5</av:PointCollection>
+        <x:Double x:Key="Height">1698</x:Double>
+        <x:Double x:Key="Width">831</x:Double>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Flowchart.StartNode>
+      <x:Reference>__ReferenceID13</x:Reference>
+    </Flowchart.StartNode>
+    <FlowStep x:Name="__ReferenceID13">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">330,124.5</av:Point>
+          <av:Size x:Key="ShapeSize">200,51</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">430,175.5 430,225.5</av:PointCollection>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Entered into process xaml. Working Case ID: " + in_TransactionItem.SpecificContent("CaseId").ToString.trim]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:InvokeWorkflowFile>
+      <FlowStep.Next>
+        <FlowStep x:Name="__ReferenceID11">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">330,225.5</av:Point>
+              <av:Size x:Key="ShapeSize">200,74</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">430,299.5 430,350</av:PointCollection>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:Comment sap:VirtualizedContainerService.HintSize="200,74" sap2010:WorkflowViewState.IdRef="Comment_2" Text="Invoke validation xaml here.">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:Comment>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID7">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">330,350</av:Point>
+                  <av:Size x:Key="ShapeSize">200,51</av:Size>
+                  <av:PointCollection x:Key="ConnectorLocation">430,401 430,445.5</av:PointCollection>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_153" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Checking FBTI portal is opened or not.</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:InvokeWorkflowFile>
+              <FlowStep.Next>
+                <FlowStep x:Name="__ReferenceID1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">330,445.5</av:Point>
+                      <av:Size x:Key="ShapeSize">200,51</av:Size>
+                      <av:PointCollection x:Key="ConnectorLocation">430,496.5 430,546.5</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:UiElementExists DisplayName="Element Exists(FBTI Home Page)" Exists="[blnHomePageExists]" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+                    <ui:UiElementExists.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="4f810c16-3acc-4650-bb4e-5e8fe9af7ee7" InformativeScreenshot="e00b8cf613693cd7aea6be9f89077b9b" Selector="&lt;html app='chrome.exe' title='Fusion Trade Innovation' /&gt;&lt;webctrl tag='H4' aaname='Fusion Trade Innovation Global Application' /&gt;" TimeoutMS="[CInt(in_Config(&quot;WaitTimeToCheckHomePage&quot;).ToString.Trim)]">
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:UiElementExists.Target>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:UiElementExists>
+                  <FlowStep.Next>
+                    <FlowDecision x:Name="__ReferenceID2" sap2010:Annotation.AnnotationText=" Checking home page exists or not " Condition="[blnHomePageExists]" DisplayName="Flow Decision" sap:VirtualizedContainerService.HintSize="158,129" sap2010:WorkflowViewState.IdRef="FlowDecision_2">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <av:Point x:Key="ShapeLocation">351,546.5</av:Point>
+                          <av:Size x:Key="ShapeSize">158,129</av:Size>
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          <av:PointCollection x:Key="FalseConnector">509,611 609,611</av:PointCollection>
+                          <av:PointCollection x:Key="TrueConnector">351,611 261,611</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <FlowDecision.True>
+                        <FlowStep x:Name="__ReferenceID3">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <av:Point x:Key="ShapeLocation">61,585.5</av:Point>
+                              <av:Size x:Key="ShapeSize">200,51</av:Size>
+                              <av:PointCollection x:Key="ConnectorLocation">161,636.5 161,813 430,813 430,856.04</av:PointCollection>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">FBTI portal is opened</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:InvokeWorkflowFile>
+                          <FlowStep.Next>
+                            <FlowStep x:Name="__ReferenceID0">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <av:Point x:Key="ShapeLocation">330,856.04</av:Point>
+                                  <av:Size x:Key="ShapeSize">200,97</av:Size>
+                                  <av:PointCollection x:Key="ConnectorLocation">430,953.04 430,1003.04</av:PointCollection>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Sequence sap2010:Annotation.AnnotationText="Masters Page Navigation" DisplayName="Sequence (Masters Page Navigation)" sap:VirtualizedContainerService.HintSize="200,97" sap2010:WorkflowViewState.IdRef="Sequence_88">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="379,139" sap2010:WorkflowViewState.IdRef="AddLogFields_50">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">Masters_Page_Navigation</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Check Entity type,If Entity was conventional Click on the AMBANK (M) Berhad,If entity type was islamic click on AMBANK ISLAMIC BERHAD.&#xA;&#xA;Navigating Fusion Trade Innovation Global Application window to Masters Window.&#xA;" DisplayName="Invoke Masters_Page_Navigation workflow" sap:VirtualizedContainerService.HintSize="379,229" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_265" UnSafe="False" WorkflowFileName="ProjectComponents\Masters_Page_Navigation.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                    <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_TransactionItem">[in_TransactionItem]</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:InvokeWorkflowFile>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="379,139" sap2010:WorkflowViewState.IdRef="AddLogFields_51">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">Process</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                              </Sequence>
+                              <FlowStep.Next>
+                                <FlowStep x:Name="__ReferenceID8">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <av:Point x:Key="ShapeLocation">330,1003.04</av:Point>
+                                      <av:Size x:Key="ShapeSize">200,74</av:Size>
+                                      <av:PointCollection x:Key="ConnectorLocation">430,1077.04 430,1127.04</av:PointCollection>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:Comment sap:VirtualizedContainerService.HintSize="200,74" sap2010:WorkflowViewState.IdRef="Comment_1" Text="Invoke process xaml here">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:Comment>
+                                  <FlowStep.Next>
+                                    <FlowStep x:Name="__ReferenceID9">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <av:Point x:Key="ShapeLocation">330,1127.04</av:Point>
+                                          <av:Size x:Key="ShapeSize">200,139</av:Size>
+                                          <av:PointCollection x:Key="ConnectorLocation">430,1266.04 430,1316.04</av:PointCollection>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="200,139" sap2010:WorkflowViewState.IdRef="AddLogFields_47">
+                                        <ui:AddLogFields.Fields>
+                                          <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">Process</InArgument>
+                                        </ui:AddLogFields.Fields>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </ui:AddLogFields>
+                                      <FlowStep.Next>
+                                        <FlowStep x:Name="__ReferenceID10">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <av:Point x:Key="ShapeLocation">330,1316.04</av:Point>
+                                              <av:Size x:Key="ShapeSize">200,108</av:Size>
+                                              <av:PointCollection x:Key="ConnectorLocation">430,1424.04 430,1474.04</av:PointCollection>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Sequence sap2010:Annotation.AnnotationText="Copying Local Drive Input file into Local Drive outputs." DisplayName="Sequence (Copying Input file into otputs)" sap:VirtualizedContainerService.HintSize="200,108" sap2010:WorkflowViewState.IdRef="Sequence_86">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_263" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Copying local drive input file(Path: " + in_TransactionItem.SpecificContent("InputFilePath").ToString + ") from local drive inputs folder(Path: " + in_Config("LocalDriveInputsFolderPath").ToString + ") to local drive outputs folder(Path: " + in_Config("LocalDriveOutputsFolderPath").ToString + ")."]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:InvokeWorkflowFile>
+                                            <Assign DisplayName="Assign - Output file path" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_48">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:String">[strOutputFilePath]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:String">[in_Config("LocalDriveOutputsFolderPath").ToString + "\" + in_Config("ProcessedFileName").ToString.Replace("{FileName}",Path.GetFileNameWithoutExtension(in_TransactionItem.SpecificContent("InputFilePath").ToString))]</InArgument>
+                                              </Assign.Value>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </Assign>
+                                            <ui:CopyFile ContinueOnError="{x:Null}" Destination="[strOutputFilePath]" DisplayName="Copy File (Local Drive Inputs to Local drive outputs)" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="CopyFile_2" Overwrite="True" Path="[in_TransactionItem.SpecificContent(&quot;InputFilePath&quot;).ToString]">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:CopyFile>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_262" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">["Copied local drive input file(Path: " + in_TransactionItem.SpecificContent("InputFilePath").ToString + ") from local drive inputs folder(Path: " + in_Config("LocalDriveInputsFolderPath").ToString + ") to local drive outputs folder(Path: " + in_Config("LocalDriveOutputsFolderPath").ToString + ")."]</InArgument>
+                                                <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:InvokeWorkflowFile>
+                                          </Sequence>
+                                          <FlowStep.Next>
+                                            <FlowStep x:Name="__ReferenceID5">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <av:Point x:Key="ShapeLocation">330,1474.04</av:Point>
+                                                  <av:Size x:Key="ShapeSize">200,108</av:Size>
+                                                  <av:PointCollection x:Key="ConnectorLocation">430,1582.04 430,1630.04</av:PointCollection>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                              <Sequence sap2010:Annotation.AnnotationText="Adding data row to Transaction Datatable." DisplayName="Sequence (Adding row to consolidated transaction Datatable)" sap:VirtualizedContainerService.HintSize="376,560" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                                                  <Assign.To>
+                                                    <OutArgument x:TypeArguments="x:Object">[in_Config("TransactionFileSerialNumber")]</OutArgument>
+                                                  </Assign.To>
+                                                  <Assign.Value>
+                                                    <InArgument x:TypeArguments="x:String" xml:space="preserve">[(CInt(in_Config("TransactionFileSerialNumber").ToString)  + 1).ToString]</InArgument>
+                                                  </Assign.Value>
+                                                </Assign>
+                                                <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{in_Config(&quot;TransactionFileSerialNumber&quot;),Now.ToString(in_Config(&quot;CurrentDateFormat&quot;).ToString) + &quot; &quot; + Now.ToString(in_Config(&quot;CurrentTimeFormat&quot;).ToString), in_TransactionItem.SpecificContent(&quot;CaseId&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;Entity&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;ProductType&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FinanceTo&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;DebitTo&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;ProductTypeF=FixorV=Float&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;Goods/ServiceDeliverOutsideMalyasia&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FinancingAmount&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FinancingTenor&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;NewBAType&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;BADraftNumber&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;MultilineNumber&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;MultilineData&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;CommissionPercentage&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;Tenor&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;NormalInterestSpread%&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;InterestType&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;DefaultAccountNumber&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;TransactionStatus&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;AvailableAmount&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FacilityLimitAmount&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FacilityExpiryDate&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;OverdueInterestSpread%&quot;).ToString.Trim, in_TransactionItem.SpecificContent(&quot;FBTIReferenceNumber&quot;).ToString.Trim}]" DataTable="[io_dtConsolidatedTransactionData]" DisplayName="Add Data Row(Consolidate Transation Data)" sap:VirtualizedContainerService.HintSize="334,185" sap2010:WorkflowViewState.IdRef="AddDataRow_3">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                </ui:AddDataRow>
+                                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_146" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                                  <ui:InvokeWorkflowFile.Arguments>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Processed data added to transaction data datatable</InArgument>
+                                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                                  </ui:InvokeWorkflowFile.Arguments>
+                                                </ui:InvokeWorkflowFile>
+                                              </Sequence>
+                                              <FlowStep.Next>
+                                                <FlowStep x:Name="__ReferenceID6">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <av:Point x:Key="ShapeLocation">330,1630.04</av:Point>
+                                                      <av:Size x:Key="ShapeSize">200,51</av:Size>
+                                                      <av:PointCollection x:Key="ConnectorLocation">530,175.5 530,225.5</av:PointCollection>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_147" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                                                    <ui:InvokeWorkflowFile.Arguments>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">Exited from process xaml</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                                                    </ui:InvokeWorkflowFile.Arguments>
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                  </ui:InvokeWorkflowFile>
+                                                </FlowStep>
+                                              </FlowStep.Next>
+                                            </FlowStep>
+                                          </FlowStep.Next>
+                                        </FlowStep>
+                                      </FlowStep.Next>
+                                    </FlowStep>
+                                  </FlowStep.Next>
+                                </FlowStep>
+                              </FlowStep.Next>
+                            </FlowStep>
+                          </FlowStep.Next>
+                        </FlowStep>
+                      </FlowDecision.True>
+                      <FlowDecision.False>
+                        <FlowStep x:Name="__ReferenceID4">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <av:Point x:Key="ShapeLocation">609,585.5</av:Point>
+                              <av:Size x:Key="ShapeSize">200,51</av:Size>
+                              <av:PointCollection x:Key="ConnectorLocation">709,636.5 709,686.5</av:PointCollection>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Logs workflow" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="ProjectComponents\Logs.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogFilePath">[in_Config("LocalDriveLogFilePath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrDateTime">[Now.ToString(in_Config("CurrentDateLogFormat").ToString) + " " + Now.ToString(in_Config("CurrentTimeLogFormat").ToString)]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogMessage">FBTI portal is not opened.</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_StrLogLevel">Info</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:InvokeWorkflowFile>
+                          <FlowStep.Next>
+                            <FlowStep x:Name="__ReferenceID12">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <av:Point x:Key="ShapeLocation">609,686.5</av:Point>
+                                  <av:Size x:Key="ShapeSize">200,97</av:Size>
+                                  <av:PointCollection x:Key="ConnectorLocation">709,783.5 709,813.5 430,813.5 430,856.04</av:PointCollection>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Sequence sap2010:Annotation.AnnotationText="Login to FBTI Portal" DisplayName="Sequence (Login FBTI Portal)" sap:VirtualizedContainerService.HintSize="200,97" sap2010:WorkflowViewState.IdRef="Sequence_87">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="339,139" sap2010:WorkflowViewState.IdRef="AddLogFields_48">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">FBTI_Portal_Login</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Login to FBTI portal" DisplayName="Invoke FBTI_Portal_Login workflow" sap:VirtualizedContainerService.HintSize="339,143" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_264" UnSafe="False" WorkflowFileName="ProjectComponents\FBTI_Portal_Login.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_StrFBTIUserID">[in_strFBTIUserId]</InArgument>
+                                    <InArgument x:TypeArguments="ss:SecureString" x:Key="in_SecStrFBTIPassword">[in_secStrFBTIPassword]</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:InvokeWorkflowFile>
+                                <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the xaml name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (Xaml Name)" sap:VirtualizedContainerService.HintSize="339,139" sap2010:WorkflowViewState.IdRef="AddLogFields_49">
+                                  <ui:AddLogFields.Fields>
+                                    <InArgument x:TypeArguments="x:String" x:Key="Executing_Xaml">Process</InArgument>
+                                  </ui:AddLogFields.Fields>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:AddLogFields>
+                              </Sequence>
+                              <FlowStep.Next>
+                                <x:Reference>__ReferenceID0</x:Reference>
+                              </FlowStep.Next>
+                            </FlowStep>
+                          </FlowStep.Next>
+                        </FlowStep>
+                      </FlowDecision.False>
+                    </FlowDecision>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowStep.Next>
+            </FlowStep>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowStep.Next>
+    </FlowStep>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID7</x:Reference>
+    <x:Reference>__ReferenceID8</x:Reference>
+    <x:Reference>__ReferenceID9</x:Reference>
+    <x:Reference>__ReferenceID10</x:Reference>
+    <x:Reference>__ReferenceID11</x:Reference>
+    <x:Reference>__ReferenceID12</x:Reference>
+    <x:Reference>__ReferenceID0</x:Reference>
+  </Flowchart>
+</Activity>

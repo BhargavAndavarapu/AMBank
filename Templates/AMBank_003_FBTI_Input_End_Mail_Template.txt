@@ -1,0 +1,21 @@
+<html>
+<style>
+	html, body {font-family:'Arial', Arial, Helvetica, sans-serif; font-size:15px;}
+	table, th, td {border: 1px solid #333; border-collapse: collapse;  }	
+</style>
+<body>
+Dear Team, <br/><br/>
+ <<ProcessName>> process execution completed. 
+<br/>
+<br/>
+<b>Start Time :</b> <<processStartTime>>
+<br/><br/>
+<b> End Time : </b> <<processendTime>>
+<br/><br/>
+Thanks, <br/>
+UiRobot 
+<p style="font-size:13px;">
+This is a system generated email by UiRobot, kindly please do not reply to this  email.
+</p>
+</body>
+</html>
